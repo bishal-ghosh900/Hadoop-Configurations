@@ -1,0 +1,74 @@
+After the creation of VM with bridge Adapter, we will modify /etc/hosts for both VM (as 2VM is created).
+Bridge Adapter will set different ip address for all of the connected VM.
+
+1. ifconfig -> use it to get the ip address of the VM
+
+2. change to root user using -> sudo su
+
+3. change directory to home dir by cd command only -> cd 
+
+4. edit the the /etc/hosts -> gedit /etc/hosts
+   Ex: 
+	127.0.0.1		localhost
+	192.168.0.107	m1               <------ ip address and machine name row wise
+	192.168.0.106	m2		     <------ ip address and machine name row wise
+
+5. Check both machines are connected or not using ping command -> ping m1 (from m2) <-- and --> ping m2 (from m1) 
+
+6. we can also disable the firewall using -> ufw disable
+
+6. apt-get install openssh-server
+
+7. create ssh private and public key file using -> ssh-keygen -t rsa -P ""
+   This step is only for passwordless connection to other machine. This step will create a id_rsa and id_rsa.pub file.
+   We need to copy that public key ( the file with .pub extension ) to another machine
+
+8. copy the ssh public key using -> ssh-copy-id -i $HOME/.ssh/id_rsa.pub bishal@m2 (from m1) 
+   Same should be done from m2 also.
+ 
+9. to connect to m2 from m1 use -> ssh m2 (from m1)
+
+10. now to be able to ssh to the same machine we need to copy $HOME/.ssh/id_rsa.pub content to $HOME/.ssh/authorized_keys using 
+    -> cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+11. download hadoop and jdk tar.gz file in one machine. And after installing it one machine we can easily copy those downloaded files
+    to another connected machine.
+
+12. untar jdk-download.tar.gz in /usr/lib/jvm using and hadoop-binary-download.tar.gz in /usr/local/ -> 
+	1. sudo tar -xvf /home/bishal/Downloads/jdk-download.tar.gz
+	2. sudo tar -xvf /home/bishal/Downloads/hadoop-binary-download.tar.gz
+
+13. set the ownership of this files using ->
+	for jdk -> chown -R root:root jdk-download		<---- first root is the user and second root is the group
+	for hadoop -> chown -R bishal:bishal hadoop
+
+14. create a soft link for hadoop using -> ln -s /usr/local/hadoop-download /usr/local/hadoop 
+
+15. add few lines in /home/bishal/.bashrc -> 
+	export JAVA_HOME=/usr/lib/jvm/jdk
+	export HADOOP_INSTALLED=/usr/local/hadoop
+	export PATH=$PATH:$JAVA_HOME/bin
+	export PATH=$PATH:$HADOOP_INSTALLED/bin
+	export PATH=$PATH:$HADOOP_INSTALLED/sbin  <-- we are adding it cuz it contains start and stop command 
+    								    files of hadoop (ex: start-all.sh, stop-all.sh) 
+16. refresh the .bashrc using -> source .bashrc
+
+	After this check java and hadoop version to check if they are successfully installed or not.
+
+17. we can copy any files from m1 to m2 or m2 to m1.
+    To securely copy anything we use scp command
+    we will copy the downloaded jdk and hadoop binary tar file to /tmp folder of m2 machine from m1 machine using -> 
+	1. scp /home/bishal/Downloads/jdk-download.tar.gz bishal@m2:/tmp
+	2. scp /home/bishal/Downloads/hadoop-binary-download.tar.gz bishal@m2:/tmp
+
+18. untar and set ownwership of these file as instructed above in m2 machine too.
+
+19. copy the .bashrc from m1 machine to m2 machine /home/bishal folder
+
+20. refresh the .bashrc file
+
+	After this check java and hadoop version to check if they are successfully installed or not.
+
+
+21. 
+
