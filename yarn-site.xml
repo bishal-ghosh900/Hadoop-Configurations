@@ -54,5 +54,10 @@
 <name>yarn.nodemanager.log-aggregation.roll-monitoring-interval-seconds</name>
 <value>3600</value>
 </property> 
+ 
+<property>
+<name>yarn.scheduler.maximum-allocation-mb</name>
+<value>4096</value>
+</property>
 
 </configuration>
