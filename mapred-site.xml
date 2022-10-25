@@ -18,7 +18,45 @@
 
 <configuration>
 <property>
-<name>mapred.framework.name</name>
-<value>yarn</value>
+   <name>mapreduce.framework.name</name>
+   <value>yarn</value>
 </property>
+
+<property>
+   <name>yarn.app.mapreduce.am.env</name>
+   <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+</property>
+
+<property>
+   <name>mapreduce.map.env</name>
+   <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+</property>
+
+<property>
+   <name>mapreduce.reduce.env</name>
+   <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+</property>
+
+<property>
+   <name>mapreduce.map.memory.mb</name>
+   <value>2048</value>
+</property>
+
+<property>
+   <name>mapreduce.reduce.memory.mb</name>
+   <value>2048</value>
+</property>
+
+<!-- 
+To get the value of mapred.application.classpath type in the terminal ->
+1. export HADOOP_CLASSPATH=$(hadoop classpath)
+2. echo $HADOOP_CLASSPATH
+3. copy the output and paste in the value section of the below property
+ -->
+<property> 
+    <name>mapreduce.application.classpath</name>
+    <value>/usr/local/hadoop/etc/hadoop:/usr/local/hadoop/share/hadoop/common/lib/*:/usr/local/hadoop/share/hadoop/common/*:/usr/local/hadoop/share/hadoop/hdfs:/usr/local/hadoop/share/hadoop/hdfs/lib/*:/usr/local/hadoop/share/hadoop/hdfs/*:/usr/local/hadoop/share/hadoop/mapreduce/*:/usr/local/hadoop/share/hadoop/yarn:/usr/local/hadoop/share/hadoop/yarn/lib/*:/usr/local/hadoop/share/hadoop/yarn/*</value>
+</property>
+
+
 </configuration>
